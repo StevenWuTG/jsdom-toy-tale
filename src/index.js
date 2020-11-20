@@ -92,15 +92,41 @@ toyForm.addEventListener("submit", function(e){
 })
 
 
-likeButton.addEventListener("click", function(e){
-  e.preventDefault()
+// likeButton.addEventListener("click", function(e){
+//   e.preventDefault()
 
-  const button = e.target
-  const card = button.closest(".card")
-  const id = card.dataset.id
-  debugger
-  const likes = card.p
-  likes++
+//   const button = e.target
+//   const card = button.closest(".card")
+//   const id = card.dataset.id
+  
+
+// })
+
+
+toyCollection.addEventListener("click", (e) =>{
+  console.log(e)
+
+  if (e.target.matches('button.like-btn')){
+    const div = e.target.closest("div")
+    const id = div.dataset.id
+    const likesDisplay = div.querySelector('p')
+    const newLikes = parseInt(likesDisplay.textContent) + 1
+
+    fetch(`http://localhost:3000/toys/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({likes: newLikes})
+    })
+    .then(response => {
+      return response.json()
+    })
+    .then(toy => {
+      likesDisplay.textContent = `${toy.likes} likes`
+    })
+
+  }
 
 })
-
