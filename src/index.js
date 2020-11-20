@@ -18,8 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // dom querys 
 const toyCollection = document.querySelector("div#toy-collection")
 const toyForm = document.querySelector("form.add-toy-form")
-
-// debugger
+const likeButton = document.getElementsByClassName("like-btn")
 
 // fetch
 console.log("hello is this working")
@@ -31,10 +30,11 @@ function loadToys() {
     // console.log(data)
     // renderToy(data)
     data.forEach(element => {renderToy(element)})
-
+    
   })
 }
 loadToys()
+
 
 
 // load toys data 
@@ -62,7 +62,7 @@ function renderToy(data) {
 
 
 }
-
+// debugger
 
 toyForm.addEventListener("submit", function(e){
     e.preventDefault()
@@ -75,7 +75,6 @@ toyForm.addEventListener("submit", function(e){
       'image': e.target.image.value,
       'likes': 0
     }
-    
      fetch("http://localhost:3000/toys", {
       method: 'POST', 
       headers: 
@@ -83,14 +82,25 @@ toyForm.addEventListener("submit", function(e){
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      
       body: JSON.stringify(newToy) 
       })
       .then(response => response.json()
       .then(toyObj => {
         renderToy(toyObj)
-      
       }))
+      toyForm.reset()
+})
+
+
+likeButton.addEventListener("click", function(e){
+  e.preventDefault()
+
+  const button = e.target
+  const card = button.closest(".card")
+  const id = card.dataset.id
+  debugger
+  const likes = card.p
+  likes++
 
 })
 
